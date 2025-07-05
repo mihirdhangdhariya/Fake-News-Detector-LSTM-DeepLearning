@@ -1,0 +1,9 @@
+Flask
+tensorflow
+scikit-learn
+numpy
+pandas
+matplotlib
+nltk
+beautifulsoup4
+requests
