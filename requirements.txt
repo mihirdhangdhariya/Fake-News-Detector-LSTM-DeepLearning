@@ -8,4 +8,3 @@ nltk
 beautifulsoup4
 requests
 gunicorn
-pickle5
