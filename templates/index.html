@@ -3,25 +3,48 @@
 <head>
   <meta charset="UTF-8">
   <title>Fake News Detection</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
   <style>
     body {
       background-color: #f0f4f8;
       font-family: 'Segoe UI', sans-serif;
+      margin: 0;
+      padding: 0;
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
     }
-    .container {
-      margin-top: 8%;
-      max-width: 650px;
+
+    .main-box {
+      width: 100%;
+      max-width: 800px;
+      margin: 20px;
+      padding: 30px;
+      background-color: white;
+      border-radius: 15px;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
     }
+
     .result {
-      margin-top: 20px;
       font-size: 1.2rem;
+    }
+
+    .info-section {
+      margin-top: 40px;
+      background-color: #f8f9fa;
+      padding: 20px;
+      border-radius: 12px;
+      box-shadow: 0 0 8px rgba(0,0,0,0.05);
     }
   </style>
 </head>
 <body>
-  <div class="container shadow-lg p-5 bg-white rounded">
+
+  <div class="main-box">
     <h2 class="text-center text-primary mb-4">📰 Fake News Detection</h2>
+
     <form method="post" action="/">
       <div class="mb-3">
         <textarea class="form-control" name="news" rows="6" placeholder="Paste your news article here..." required></textarea>
@@ -30,10 +53,51 @@
     </form>
 
     {% if prediction %}
-      <div class="result alert alert-{{ 'danger' if prediction == 'Fake' else 'success' }} text-center">
+      <div class="result alert alert-{{ 'danger' if prediction == 'Fake' else 'success' }} text-center mt-4">
         <strong>Prediction:</strong> {{ prediction }}
       </div>
+
+      <div class="mt-3">
+        <label><strong>Confidence: {{ confidence }}%</strong></label>
+        <div class="progress" style="height: 25px;">
+          <div class="progress-bar 
+                      {% if prediction == 'Fake' %}
+                        bg-danger
+                      {% else %}
+                        bg-success
+                      {% endif %}"
+               role="progressbar" 
+               style="width: {{ confidence }}%;" 
+               aria-valuenow="{{ confidence }}" 
+               aria-valuemin="0" 
+               aria-valuemax="100">
+            {{ confidence }}%
+          </div>
+        </div>
+      </div>
     {% endif %}
+
+    <div class="info-section mt-5">
+      <h5>ℹ️ How This Model Works</h5>
+      <p>This fake news detector uses a deep learning model trained on labeled real and fake news articles. It tokenizes the input text, pads it to a fixed length, and passes it through a neural network to output a probability score.</p>
+
+      <h6>✅ Strengths:</h6>
+      <ul>
+        <li>Fast, lightweight, and easy to use</li>
+        <li>Trained on English-language news articles</li>
+        <li>Provides confidence score with each prediction</li>
+      </ul>
+
+      <h6>⚠️ Limitations:</h6>
+      <ul>
+        <li>May not work well on satire, sarcasm, or non-news text</li>
+        <li>Does not verify facts from real-world databases</li>
+        <li>Biased based on training data distribution</li>
+      </ul>
+
+      <p class="text-muted"><small>Note: Use this tool for guidance, not as an authoritative fact-checking solution.</small></p>
+    </div>
   </div>
+
 </body>
 </html>
